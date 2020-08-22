@@ -1,0 +1,138 @@
+[SETTINGS]
+{
+  "Name": "test323",
+  "SuggestedBots": 1,
+  "MaxCPM": 0,
+  "LastModified": "2020-08-22T21:25:33.9126532+03:00",
+  "AdditionalInfo": "",
+  "Author": "nnb",
+  "Version": "1.4.4 [Anomaly]",
+  "IgnoreResponseErrors": false,
+  "MaxRedirects": 8,
+  "NeedsProxies": false,
+  "OnlySocks": false,
+  "OnlySsl": false,
+  "MaxProxyUses": 0,
+  "BanProxyAfterGoodStatus": false,
+  "EncodeData": false,
+  "AllowedWordlist1": "",
+  "AllowedWordlist2": "",
+  "DataRules": [],
+  "CustomInputs": [],
+  "CaptchaUrl": "",
+  "Base64": "",
+  "Grayscale": false,
+  "RemoveLines": false,
+  "RemoveNoise": false,
+  "Dilate": false,
+  "Threshold": 1.0,
+  "DiffKeep": 0.0,
+  "DiffHide": 0.0,
+  "Saturate": false,
+  "Saturation": 0.0,
+  "Transparent": false,
+  "Contour": false,
+  "OnlyShow": false,
+  "ContrastGamma": false,
+  "Contrast": 1.0,
+  "Gamma": 1.0,
+  "Brightness": 1.0,
+  "RemoveLinesMin": 0,
+  "RemoveLinesMax": 0,
+  "Crop": false,
+  "ForceHeadless": false,
+  "AlwaysOpen": false,
+  "AlwaysQuit": false,
+  "DisableNotifications": false,
+  "CustomUserAgent": "",
+  "RandomUA": false,
+  "CustomCMDArgs": ""
+}
+
+[SCRIPT]
+FUNCTION Length "<hwid>" -> VAR "hwd" 
+
+FUNCTION Length "11111111111111111111111111111111" -> VAR "ttt1" 
+
+FUNCTION Length "111111111111111111111111111111111" -> VAR "ttt2" 
+
+FUNCTION Length "1111111111111111111111111111111" -> VAR "ttt3" 
+
+!PRINT "<length>"
+!PRINT "<hwid>"
+IF "<hwid>" EqualTo ""
+JUMP #STOP
+ELSE
+JUMP #CHECK1
+ENDIF
+
+#STOP FUNCTION Constant "0123456789" -> VAR "ChrSET" 
+
+#RANDOM-LENGTH FUNCTION Constant "99999999999999" -> VAR "RndL" 
+
+BEGIN SCRIPT JavaScript
+var charU = ChrSET;
+var lengthU = RndL;
+var rnd = '';
+for (var i=0; i<lengthU; i++){
+ var rnumU = Math.floor(Math.random() * charU.length);
+ rnd += charU.substring(rnumU,rnumU+1);
+ }
+var str = "rnd";
+END SCRIPT -> VARS "rnd"
+
+PARSE "<rnd>" LR "" "" -> VAR "Random" 
+
+FUNCTION Constant 
+
+#CHECK1 
+IF "<hwd>" LessThan "<ttt3>"
+JUMP #STOP
+ELSE
+JUMP #CHECK2
+ENDIF
+#CHECK2
+IF "<hwd>" GreaterThan "<ttt2>"
+JUMP #STOP
+ELSE
+JUMP #CHECK4
+ENDIF
+#CHECK4
+IF "<hwd>" EqualTo "<ttt1>"
+JUMP #START1
+ELSE
+JUMP #CHECK5
+ENDIF
+#CHECK5
+WHILE "<hwd>" NotEqualTo "<ttt>"
+JUMP #STOP
+ENDWHILE
+#START1
+IF "<hwid>" Contains "<hwid>"
+
+REQUEST GET "https://testasdfadf.000webhostapp.com/hwid.txt" 
+  
+  HEADER "User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; Trident/7.0; rv:11.0) like Gecko" 
+  HEADER "Pragma: no-cache" 
+  HEADER "Accept: */*" 
+
+PARSE "<SOURCE>" LR "" "" -> VAR "LIST" 
+
+JUMP #START2
+ENDIF
+#START2
+IF "<LIST>" Contains "<hwid>" OR EqualTo "<hwid>"
+PRINT "Nice! It work!"
+set status Success
+JUMP #SUCCES
+ELSE
+PRINT "Bad HWID! I dont have it on Base."
+JUMP #STOP
+ENDIF
+
+#SUCCES REQUEST GET "https://mail.ru" 
+  
+  HEADER "User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; Trident/7.0; rv:11.0) like Gecko" 
+  HEADER "Pragma: no-cache" 
+  HEADER "Accept: */*" 
+
